@@ -11,7 +11,12 @@ const path = require('path')
 const console = require('console')
 
 /**
- * @typedef {{ cwd?: string|RegExp, verbose: boolean, logger: object, extensions: string[], withNamespace?: boolean }} Options
+ * @typedef Options
+ * @property {string|RegExp} [cwd]
+ * @property {boolean} [verbose]
+ * @property {console} [logger]
+ * @property {string[]} [extensions]
+ * @property {boolean} [withNamespace]
  */
 
 class Loader {
@@ -172,7 +177,7 @@ class Loader {
 }
 
 /**
- * @param {Options} options
- * @returns {Router}
+ * @param {Options} [options]
+ * @returns {Loader}
  */
 module.exports = (options = {}) => new Loader(options)
