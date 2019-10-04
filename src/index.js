@@ -122,12 +122,10 @@ class Loader {
   }
 
   /**
-   * Into method
-   *
-   * @param {import('socket.io').Server} server
-   * @returns {this}
+   * @param {(value: Function, index: number, array: Function[]) => Function} callback
+   * @returns {Function[]}
    */
-  into (server) {
+  map (callback) {
     /**
      * @type {Function[]}
      */
@@ -166,13 +164,7 @@ class Loader {
       }
     }
 
-    server.on('connection', socket => {
-      for (const fn of fns) {
-        fn(server, socket, ...this.extraArguments)
-      }
-    })
-
-    return this
+    return fns.map(callback)
   }
 }
 
