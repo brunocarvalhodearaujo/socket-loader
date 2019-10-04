@@ -125,9 +125,10 @@ class Loader {
    * Into method
    *
    * @param {import('socket.io').Server} server
+   * @param {string | Function | RegExp} [nsp] namespace of socket
    * @returns {this}
    */
-  into (server) {
+  into (server, nsp = '/') {
     /**
      * @type {Function[]}
      */
@@ -166,10 +167,12 @@ class Loader {
       }
     }
 
-    server.on('connection', socket => {
+    server.of(nsp).on('connection', socket => {
       for (const fn of fns) {
         fn(server, socket, ...this.extraArguments)
       }
+
+      this.log(`loaded namespace ${nsp}`, 'log')
     })
 
     return this
